@@ -718,25 +718,27 @@ if __name__ == "__main__":
     tasks = ['node', 'nodeopf']
     powergrids = ['texas']#,'ieee39','ieee118','uk']
     models = ['gin','gcn', 'gat', 'transformer']
-    for powergrid in powergrids:
-        args.dataset_name = powergrid
-        for task in tasks:
-            args.datatype = task
-            for model in models:
-                args.model_name = model
-                for rnd_seed in rnd_seeds:
-                    args.seed = rnd_seed
-                    fix_random_seed(rnd_seed)
-                    for j in [8, 16, 32]:   # hidden dimension
-                        for i in [1, 2, 3]:  # number of layers
-                            args.num_layers = i
-                            args.hidden_dim = j
-                            #if i==3 & j==16:
-                            #    continue
-                            #else:
-                            args_group = create_args_group(parser, args)
-                            print(f"Hidden_dim: {args.hidden_dim}, Num_layers: {args.num_layers}, model {args.model_name}, data {args.dataset_name}, task {args.datatype}, rnd_seed {rnd_seed} ")
-                            train_gnn(args, args_group)
+    for rnd_seed in rnd_seeds:
+        args.seed = rnd_seed
+        fix_random_seed(rnd_seed)
+    
+        for j in [32]:
+            for i in [3]:
+                args.num_layers = i
+                args.hidden_dim = j
+    
+                args_group = create_args_group(parser, args)
+    
+                print(
+                    f"Hidden_dim: {args.hidden_dim}, "
+                    f"Num_layers: {args.num_layers}, "
+                    f"model {args.model_name}, "
+                    f"data {args.dataset_name}, "
+                    f"task {args.datatype}, "
+                    f"rnd_seed {rnd_seed}"
+                )
+    
+                train_gnn(args, args_group)
 
         print("CHANGE POWERGRID")
 
