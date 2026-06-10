@@ -16,6 +16,7 @@ import torch
 from torch_geometric.data import Data
 import numpy as np
 import scipy
+import scipy.io
 from utils.gen_utils import from_edge_index_to_adj, padded_datalist
 
 
